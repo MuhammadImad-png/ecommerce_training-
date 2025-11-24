@@ -6,5 +6,5 @@ class UserDataModel {
     required this.userId,
     required this.name, 
     required this.email,
-  } );  
+  });
 }
