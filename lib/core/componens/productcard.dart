@@ -1,97 +1,121 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_std/core/app_colors.dart';
-import 'package:flutter_app_std/core/componens/cach_image.dart' show CachImage;
-import 'package:flutter_app_std/views/product_details/logic/ui/product_details_view.dart';
+import 'package:flutter_app_std/core/model/product_model.dart';
 
 class ProductCard extends StatelessWidget {
-  final String name;
-  final int price;
-  final int oldPrice;
-  final String imageUrl;
+  final ProductModel product;
+  final VoidCallback? onTap;
 
   const ProductCard({
     super.key,
-    required this.name,
-    required this.price,
-    required this.oldPrice,
-    required this.imageUrl,
+    required this.product,
+    this.onTap,
+    required int price,
+    required String name,
+    required int oldPrice,
+    required String imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ProductDetailsView())),
-      child: Card(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              // ignore: deprecated_member_use
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 6,
+              offset: const Offset(2, 3),
+            ),
+          ],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ---------------------- الصورة ----------------------
             ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
-                bottomRight: Radius.circular(16),
-              ),
-              child: CachImage(url: imageUrl),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        name,
-                        style: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.favorite_border),
-                        onPressed: () {},
-                      ),
-                    ],
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                product.imageUrl ?? "",
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, _, __) => Container(
+                  height: 150,
+                  width: double.infinity,
+                  color: Colors.grey[300],
+                  child: const Icon(
+                    Icons.image_not_supported,
+                    size: 50,
+                    color: Colors.grey,
                   ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "$price LE",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          print("اشتريت المنتج 🛒");
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.kPrimaryColor,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 21, vertical: 18),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: const Text(
-                          "Buy Now",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    "$oldPrice LE",
-                    style: const TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      fontSize: 16,
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
+
+            const SizedBox(height: 10),
+
+            // ---------------------- اسم المنتج ----------------------
+            Text(
+              product.productName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 6),
+
+            // ---------------------- السعر ----------------------
+            Row(
+              children: [
+                Text(
+                  "${product.price} EGP",
+                  // style: const TextStyle(
+                  //   fontSize: 16,
+                  //   color: Colors.green,
+                  //   fontWeight: FontWeight.bold,
+                  // ),
+                ),
+
+                const SizedBox(width: 8),
+
+                // Text(
+                //   product.oldPrice,
+                //   style: const TextStyle(
+                //     fontSize: 14,
+                //     color: Colors.red,
+                //     decoration: TextDecoration.lineThrough,
+                //   ),
+                // ),
+              ],
+            ),
+
+            const SizedBox(height: 6),
+
+            // ---------------------- الخصم ----------------------
+            if (product.sale.isNotEmpty)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  // color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  "${product.sale}% OFF",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

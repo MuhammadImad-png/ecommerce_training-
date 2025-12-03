@@ -25,7 +25,7 @@ class ProfileView extends StatelessWidget {
         },
         builder: (context, state) {
           UserDataModel? user =
-              context.read<AuthenticationCubit>().userDataModel;
+              context.watch<AuthenticationCubit>().userDataModel;
           return state is LogoutLoading || state is GetUserDataLoading
               ? CustomerCircleProglndicator()
               : Center(

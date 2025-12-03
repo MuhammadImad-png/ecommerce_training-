@@ -8,6 +8,6 @@ class NavBarCubit extends Cubit<NavBarState> {
   int currentIndex = 0;
   void changecurrentIndex(int index) {
     currentIndex = index;
-    emit(IndexChanged() as NavBarState);
+    emit(IndexChanged());
   }
 }

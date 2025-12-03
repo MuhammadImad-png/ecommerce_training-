@@ -18,6 +18,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(LoginLoading());
     try {
       await client.auth.signInWithPassword(email: email, password: password);
+      await getUserdata();
       emit(LoginSuccess());
     } on AuthApiException catch (e) {
       log(e.toString());
@@ -48,42 +49,46 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   // ------------------- GOOGLE SIGN-IN -------------------
-  GoogleSignInAccount? googleUser;
-  Future<AuthResponse> googleSignIn() async {
+  Future<Object> googleSignIn() async {
     emit(GooglelSignInLoding());
+
     const webClientId =
         '366738714548-gnaa9l06svjm79gam3rq9dt59eghtufl.apps.googleusercontent.com';
     const androidClientId =
         '366738714548-eqrkpc7ob7moknd7osfutcj2ubjrc85j.apps.googleusercontent.com';
-    // final GoogleSignIn googleSignIn = GoogleSignIn(serverClientId: webClientId);
-    final GoogleSignIn googleSignIn = GoogleSignIn(
-      clientId: kIsWeb ? webClientId : null,
-      serverClientId: kIsWeb ? null : androidClientId,
-    );
 
-    googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
-      return AuthResponse();
+    // -------------------------
+    // 🔥 Web Logic
+    // -------------------------
+    if (kIsWeb) {
+      final res = await client.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: 'http://localhost',
+      );
+
+      emit(GoogleSignInSuccess());
+      return res;
     }
 
-    final googleAuth = await googleUser!.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
+    // -------------------------
+    // 🔥 Android Logic
+    // -------------------------
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      serverClientId: androidClientId,
+    );
 
-    if (accessToken == null || idToken == null) {
+    final googleUser = await googleSignIn.signIn();
+    if (googleUser == null) {
       emit(GooglelSignInError());
       return AuthResponse();
     }
 
+    final googleAuth = await googleUser.authentication;
+
     final response = await client.auth.signInWithIdToken(
       provider: OAuthProvider.google,
-      idToken: idToken,
-      accessToken: accessToken,
-    );
-
-    await addUserData(
-      name: googleUser!.displayName ?? 'No Name',
-      email: googleUser!.email,
+      idToken: googleAuth.idToken!,
+      accessToken: googleAuth.accessToken,
     );
 
     emit(GoogleSignInSuccess());
