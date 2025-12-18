@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_std/core/app_colors.dart';
 import 'package:flutter_app_std/core/componens/custom_circle_pro_ind.dart';
 import 'package:flutter_app_std/core/function/navigate_without_back.dart';
+import 'package:flutter_app_std/views/auth/cubit/authentication_cubit.dart';
 import 'package:flutter_app_std/views/auth/logic/models/user_model.dart';
 import 'package:flutter_app_std/views/auth/logic/ui/login_view.dart';
-import 'package:flutter_app_std/views/product_details/logic/cubit/authentication_cubit.dart';
+//  import 'package:flutter_app_std/views/product_details/logic/cubit/authentication_cubit.dart';
 import 'package:flutter_app_std/views/profile/ui/wedget/custom_row_btn.dart';
 import 'package:flutter_app_std/views/profile/ui/wedget/edit_name.dart';
 import 'package:flutter_app_std/views/profile/ui/wedget/my_orders.dart';
@@ -20,7 +21,7 @@ class ProfileView extends StatelessWidget {
       child: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
           if (state is LogoutSuccess) {
-            navigateWithBack(context, LoginView());
+            navigateTo(context, LoginView());
           }
         },
         builder: (context, state) {

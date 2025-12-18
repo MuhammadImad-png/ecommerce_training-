@@ -24,6 +24,7 @@ class FavoriteView extends StatelessWidget {
           "Resantly product",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
+        ProductList(),
       ],
     );
   }

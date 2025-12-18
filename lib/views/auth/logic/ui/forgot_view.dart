@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_std/core/componens/custom_circle_pro_ind.dart';
 import 'package:flutter_app_std/core/function/show_msg.dart';
+import 'package:flutter_app_std/views/auth/cubit/authentication_cubit.dart';
 import 'package:flutter_app_std/views/auth/logic/ui/Widget/custom_arrow_btn.dart';
 import 'package:flutter_app_std/views/auth/logic/ui/Widget/custom_text_from_field.dart';
-import 'package:flutter_app_std/views/product_details/logic/cubit/authentication_cubit.dart';
+// import 'package:flutter_app_std/views/product_details/logic/cubit/authentication_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ForgotView extends StatefulWidget {
@@ -14,7 +15,8 @@ class ForgotView extends StatefulWidget {
 }
 
 class _ForgotViewState extends State<ForgotView> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();  // عشان اتاكد ان الفورم  مش فاضي ياعنب 
+  final GlobalKey<FormState> formKey =
+      GlobalKey<FormState>(); // عشان اتاكد ان الفورم  مش فاضي ياعنب
   final TextEditingController emailController = TextEditingController();
 
   @override

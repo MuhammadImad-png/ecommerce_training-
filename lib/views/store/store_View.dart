@@ -24,18 +24,12 @@ class StoreView extends StatelessWidget {
           padding: EdgeInsets.only(top: 15, bottom: 15),
           child: CustomSearchField(),
         ),
-
         SizedBox(height: 24),
-
         Text(
           "Resantly product",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
-
-  
-       ],
+      ],
     );
-
   }
-  
 }

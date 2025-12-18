@@ -33,7 +33,7 @@ class MainHomeView extends StatelessWidget {
                 child: GNav(
                   onTabChange: (index) {
                     cubit.changecurrentIndex(index);
-      },
+                  },
                   rippleColor: AppColors
                       .kPrimaryColor, // tab button ripple color when pressed
                   hoverColor: Colors.grey[700]!,

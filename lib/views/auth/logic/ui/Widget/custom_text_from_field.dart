@@ -33,12 +33,13 @@ class customTextFormField extends StatelessWidget {
     required this.labelText,
     required this.suffIcon,
     this.isSecured = false,
-    this.controller, this.keybordType,
+    this.controller,
+    this.keybordType,
   });
   final String labelText;
   final Widget? suffIcon;
   final bool isSecured;
-  final TextInputType? keybordType ;
+  final TextInputType? keybordType;
   final TextEditingController? controller;
 
   @override

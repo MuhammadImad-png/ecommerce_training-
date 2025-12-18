@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app_std/views/auth/logic/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'authentication_state.dart';

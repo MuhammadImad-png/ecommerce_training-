@@ -14,4 +14,3 @@ final class GetDataLoading extends HomeState {}
 final class GetDataSuccess extends HomeState {}
 
 final class GetDataError extends HomeState {}
-

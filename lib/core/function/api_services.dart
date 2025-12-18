@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_app_std/core/componens/sensitve_data.dart';
 
- class ApiServices {
+class ApiServices {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: "https://vkbbzvwaqazmreegcjrw.supabase.co/rest/v1/",

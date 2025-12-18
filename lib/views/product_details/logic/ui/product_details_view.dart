@@ -83,4 +83,3 @@ class ProductDetailsView extends StatelessWidget {
     );
   }
 }
- 

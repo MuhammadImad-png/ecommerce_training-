@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_std/core/app_colors.dart';
 import 'package:flutter_app_std/core/function/navigate_without_back.dart';
 import 'package:flutter_app_std/core/function/show_msg.dart';
+import 'package:flutter_app_std/views/auth/cubit/authentication_cubit.dart';
 import 'package:flutter_app_std/views/auth/logic/signup_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_app_std/views/auth/logic/ui/forgot_view.dart';
 import 'package:flutter_app_std/views/nav_bar/logic/ui/main_home_view.dart';
 import 'package:flutter_app_std/views/auth/logic/ui/Widget/custom_Arow_With_arow.dart';
 import 'package:flutter_app_std/views/auth/logic/ui/Widget/custom_text_from_field.dart';
-import 'package:flutter_app_std/views/product_details/logic/cubit/authentication_cubit.dart';
+// import 'package:flutter_app_std/views/product_details/logic/cubit/authentication_cubit.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -27,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
     return BlocConsumer<AuthenticationCubit, AuthenticationState>(
       listener: (context, state) {
         if (state is LoginSuccess || State is GoogleSignInSuccess) {
-          navigateWithBack(context, MainHomeView());
+          navigateTo(context, MainHomeView());
         } else if (state is LoginError) {
           showMsg(context, state.messege);
         }

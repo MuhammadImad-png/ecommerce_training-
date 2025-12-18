@@ -7,4 +7,4 @@ class UserDataModel {
     required this.name,
     required this.email,
   });
-} 
+}

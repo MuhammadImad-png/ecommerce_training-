@@ -6,23 +6,20 @@ class FavoriteProvider extends ChangeNotifier {
   void toggleFavorite(Map<String, dynamic> product) {
     if (favorites.any((item) => item['name'] == product['name'])) {
       favorites.removeWhere((item) => item['name'] == product['name']);
-    } 
-   
-    else {
+    } else {
       favorites.add(product);
     }
 
-      notifyListeners(); // لازم ننده عليها بعد أي تغيير
+    notifyListeners(); // لازم ننده عليها بعد أي تغيير
   }
 }
 
-
-//  
-//  
-//  
-//  
-//  
-//  
+//
+//
+//
+//
+//
+//
 // class FavoriteProvider extends ChangeNotifier {
 //   final List<Map<String, dynamic>> _favorites = [];
 
@@ -44,4 +41,3 @@ class FavoriteProvider extends ChangeNotifier {
 //     return _favorites.any((p) => p['name'] == name);
 //   }
 //
- 

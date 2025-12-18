@@ -8,7 +8,7 @@ class ProductModel {
   final String description;
   final String category;
   final String? imageUrl;
-
+  final double? rating; // ⭐
   final List<FavoriteProduct> favoriteProducts;
   final List<PurchaseTable> purchaseTable;
 
@@ -24,6 +24,7 @@ class ProductModel {
     required this.imageUrl,
     required this.favoriteProducts,
     required this.purchaseTable,
+    this.rating, // ⭐
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -43,6 +44,7 @@ class ProductModel {
       purchaseTable: (json["purchase_table"] as List<dynamic>)
           .map((e) => PurchaseTable.fromJson(e))
           .toList(),
+      rating: json['rating'] != null ? (json['rating']).toDouble() : null, // ⭐
     );
   }
 }

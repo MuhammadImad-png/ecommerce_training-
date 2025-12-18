@@ -19,7 +19,6 @@ class CategoriesList extends StatelessWidget {
                 horizontal: 8), // تعديل المسافات بين العناصر
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-  
               children: [
                 CircleAvatar(
                   radius: 30, // تحديد حجم الدائرة

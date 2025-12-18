@@ -56,10 +56,10 @@ class ProductList extends StatelessWidget {
               final product = products[index];
 
               return ProductCard(
-                name: product.productName,
-                price: int.parse(product.price),
-                oldPrice: int.parse(product.oldPrice),
-                imageUrl: product.imageUrl ?? "",
+                // name: product.productName,
+                // price: int.parse(product.price),
+                // oldPrice: int.parse(product.oldPrice),
+                // imageUrl: product.imageUrl ?? "",
                 product: product,
               );
             },
