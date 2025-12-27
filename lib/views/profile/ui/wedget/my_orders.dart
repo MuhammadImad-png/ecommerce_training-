@@ -8,7 +8,7 @@ class MyOrdersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: bulidCustomAppBar("MyOrders"),
+      appBar: bulidCustomAppBar("MyOrders",context),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Productlist(

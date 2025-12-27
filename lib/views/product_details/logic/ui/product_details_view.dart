@@ -1,85 +1,122 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_std/core/componens/cach_image.dart';
 import 'package:flutter_app_std/core/function/bulid_appbar.dart';
+import 'package:flutter_app_std/core/model/product_model.dart';
 import 'package:flutter_app_std/views/auth/logic/ui/Widget/custom_text_from_field.dart';
+import 'package:flutter_app_std/views/product_details/logic/cubit/product_detals_cubit.dart';
 import 'package:flutter_app_std/views/product_details/logic/ui/custom_rating_widget.dart';
 import 'package:flutter_app_std/views/product_details/logic/ui/widgets/comments_list.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDetailsView extends StatelessWidget {
-  const ProductDetailsView({super.key});
+  final ProductModel product;
+
+  const ProductDetailsView({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: bulidCustomAppBar("product Name"),
-      body: ListView(children: [
-        const CachImage(
-          url:
-              "https://cdn.pixabay.com/photo/2017/08/01/13/13/tv-2565306_640.jpg",
-        ),
-        const Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Product Three",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+    return BlocProvider(
+      create: (context) =>
+          ProductDetailsCubit()..getRates(productId: product.id),
+      child: BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
+        listener: (context, state) {
+        
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: bulidCustomAppBar(
+              context as String ,
+              product.productName,
+            ),
+            body: state is GetRateLoading
+                ? CircularProgressIndicator()
+                : ListView(
+                    padding: const EdgeInsets.all(12),
+                    children: [
+                      // ---------- الصورة ----------
+                      CachImage(
+                        url: product.imageUrl ??
+                            "https://via.placeholder.com/300",
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // ---------- الاسم + السعر ----------
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              product.productName,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "${product.price} LE",
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // ---------- الوصف ----------
+                      Text(
+                        product.description,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // ---------- الريت ----------
+                      Center(
+                        child: CustomRatingWidget(
+                          onRated: (double rating) {
+                            context.read<ProductDetailsCubit>().getRates(
+                                  productId: product.id,
+                                );
+                          },
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // ---------- إضافة تعليق ----------
+                      customTextFormField(
+                        labelText: "Type Your Feedback",
+                        suffIcon: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.send),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      const Text(
+                        "Comments:",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      const CommentList(),
+                    ],
                   ),
-                  Text("234 LE",
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Product Dsciption",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomRatingWidget(
-              onRated: (double rating) {
-                debugPrint("تم التقييم: $rating");
-              },
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        customTextFormField(
-            labelText: " Type Your Feedbake",
-            suffIcon: IconButton(onPressed: () {}, icon: Icon(Icons.send))),
-        const SizedBox(
-          height: 20,
-        ),
-        Text("Comment :",
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-        CommentList(),
-      ]),
+          );
+        },
+      ),
     );
   }
 }
