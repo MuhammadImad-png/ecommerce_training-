@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_std/core/componens/cach_image.dart';
 import 'package:flutter_app_std/core/function/bulid_appbar.dart';
+import 'package:flutter_app_std/core/function/navigate_without_back.dart';
 import 'package:flutter_app_std/core/model/product_model.dart';
 import 'package:flutter_app_std/views/auth/logic/ui/Widget/custom_text_from_field.dart';
 import 'package:flutter_app_std/views/product_details/logic/cubit/product_detals_cubit.dart';
 import 'package:flutter_app_std/views/product_details/logic/ui/custom_rating_widget.dart';
 import 'package:flutter_app_std/views/product_details/logic/ui/widgets/comments_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProductDetailsView extends StatelessWidget {
   final ProductModel product;
@@ -23,12 +25,16 @@ class ProductDetailsView extends StatelessWidget {
           ProductDetailsCubit()..getRates(productId: product.id),
       child: BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
         listener: (context, state) {
-        
+          if (state is AddOrUpdateRateSuccess) {
+            navigateWithoutBack(context, this);
+          }
         },
         builder: (context, state) {
+          ProductDetailsCubit cubit = context.read<ProductDetailsCubit>();
+
           return Scaffold(
             appBar: bulidCustomAppBar(
-              context as String ,
+              context as String,
               product.productName,
             ),
             body: state is GetRateLoading
@@ -78,14 +84,41 @@ class ProductDetailsView extends StatelessWidget {
                       const SizedBox(height: 20),
 
                       // ---------- الريت ----------
-                      Center(
-                        child: CustomRatingWidget(
-                          onRated: (double rating) {
-                            context.read<ProductDetailsCubit>().getRates(
-                                  productId: product.id,
-                                );
-                          },
+                      // Center(
+                      //   child: CustomRatingWidget(
+                      //     onRated: (double rating) {
+                      //       context.read<ProductDetailsCubit>().getRates(
+                      //             productId: product.id,
+                      //           );
+                      //     },
+                      //   ),
+                      // ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      RatingBar.builder(
+                        initialRating: cubit.userRate.toDouble(),
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        itemCount: 5,
+                        itemPadding:
+                            const EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
                         ),
+                        onRatingUpdate: (rating) {
+                          cubit.addOrUpdateUserRate(
+                            productId: widget.product.productId!,
+                            data: {
+                              "rate": rating.toInt(),
+                              "for_user": cubit.userId,
+                              "for_product": widget.product.productId,
+                            },
+                          );
+                        },
                       ),
 
                       const SizedBox(height: 20),
@@ -111,7 +144,9 @@ class ProductDetailsView extends StatelessWidget {
 
                       const SizedBox(height: 10),
 
-                      const CommentList(),
+                      const CommentsList(
+                        productModel: widget.product,
+                      ),
                     ],
                   ),
           );

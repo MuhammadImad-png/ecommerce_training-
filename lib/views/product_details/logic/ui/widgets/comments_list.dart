@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_std/core/model/product_model.dart';
 
-class CommentList extends StatelessWidget {
-  const CommentList({
+class CommentsList extends StatelessWidget {
+  const CommentsList({
     super.key,
+     required this.productModel,
   });
-
+ final ProductModel productModel;
   @override
   Widget build(BuildContext context) {
     return ListView.separated(

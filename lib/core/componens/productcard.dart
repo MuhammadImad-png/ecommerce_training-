@@ -16,7 +16,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => navigateTo(context, ProductDetailsView(product: product,)),
+      onTap: () => navigateWithoutBack(context, ProductDetailsView(product: product,)),
       child: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
