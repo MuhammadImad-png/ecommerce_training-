@@ -1,5 +1,5 @@
 class ProductModel {
-  final String id;
+  final String productId;
   final DateTime createdAt;
   final String productName;
   final String price;
@@ -13,7 +13,7 @@ class ProductModel {
   final List<PurchaseTable> purchaseTable;
 
   ProductModel({
-    required this.id,
+    required this.productId,
     required this.createdAt,
     required this.productName,
     required this.price,
@@ -29,7 +29,7 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json["id"],
+      productId: json["id"],
       createdAt: DateTime.parse(json["created_at"]),
       productName: json["product_name"],
       price: json["price"],
